@@ -2,30 +2,20 @@
 
 include ('../includes/header.php');
 require "../database/DB.php";
-require "../controller/TaskController.php";
-
-$config = require "../config.php";
-
-$conn = new PDO ("mysql:host=127.0.0.1;dbname=ToDo;", "igor", "bigor");
-
-$stmt = $conn->query("SELECT * FROM task");
-
-while ($row = $stmt->fetch()) {
-    echo $row['task']."<br />\n";
-}
+require "../database/QueryBuilder.php";
 
 
-
-// $pdo = new PDO ("mysql:host=127.0.0.1;dbname=ToDo;", "igor", "bigor");
-// $sql = "SELECT * FROM ToDo.task"; 
-
-// foreach ($pdo->query($sql) as $red ) {
-//     echo $red['task'];
-// } 
+$database = new QueryBuilder(DB::connection());
 
 
-// print_r($pdo);
+if (isset($_GET["id"])) {
+        
+        $id = htmlspecialchars($_GET["id"]);
+        $database->delete($id);
+        header("Location: index.php");
+    }
 
-// foreach ($data as $row) {
-//     echo $row['task']."<br />\n";
-// }
+
+
+
+
